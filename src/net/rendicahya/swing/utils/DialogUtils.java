@@ -1,8 +1,5 @@
 package net.rendicahya.swing.utils;
 
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 public class DialogUtils {
@@ -49,10 +46,5 @@ public class DialogUtils {
 
     public static void error(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
-    }
-
-    public static void centerDialog(Dialog dialog) {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        dialog.setLocation((dim.width - dialog.getSize().width) / 2, (dim.height - dialog.getSize().height) / 2);
     }
 }

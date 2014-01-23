@@ -9,6 +9,8 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.JTextComponent;
 import net.rendicahya.swing.ChangeListener;
 
@@ -120,5 +122,22 @@ public class SwingUtils {
 
     public static void setImage(ImagePlus image, JLabel label) {
         setImage(image.getImage(), label);
+    }
+
+    /**
+     * Should be called before initComponents()
+     *
+     * @param lafName
+     */
+    public static void setLaf(String lafName) {
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if (info.getName().equals(lafName)) {
+                try {
+                    UIManager.setLookAndFeel(info.getClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                }
+                break;
+            }
+        }
     }
 }
