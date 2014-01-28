@@ -69,7 +69,7 @@ public class JTableUtils {
     }
 
     public static void hideColumn(JTable table, int columnIndex) {
-        TableColumn column = table.getColumn(columnIndex);
+        TableColumn column = table.getColumnModel().getColumn(columnIndex);
 
         column.setMaxWidth(0);
         column.setMinWidth(0);
