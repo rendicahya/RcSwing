@@ -2,6 +2,7 @@ package net.rendicahya.swing.utils;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 public class JTableUtils {
@@ -62,5 +63,13 @@ public class JTableUtils {
                 model.removeRow(0);
             }
         }
+    }
+
+    public static void hideColumn(JTable table, int columnIndex) {
+        TableColumn column = table.getColumn(columnIndex);
+
+        column.setMaxWidth(0);
+        column.setMinWidth(0);
+        column.setPreferredWidth(0);
     }
 }
