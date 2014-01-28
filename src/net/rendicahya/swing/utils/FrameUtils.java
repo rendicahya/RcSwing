@@ -7,6 +7,9 @@ import java.awt.Window;
 
 public class FrameUtils {
 
+    private FrameUtils() {
+    }
+
     public static void centerFrame(Window window) {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation((dim.width - window.getSize().width) / 2, (dim.height - window.getSize().height) / 2);

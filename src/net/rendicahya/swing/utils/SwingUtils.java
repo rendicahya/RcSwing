@@ -16,6 +16,9 @@ import net.rendicahya.swing.ChangeListener;
 
 public class SwingUtils {
 
+    private SwingUtils() {
+    }
+
     public static void clear(JTextComponent... fields) {
         for (JTextComponent field : fields) {
             field.setText("");

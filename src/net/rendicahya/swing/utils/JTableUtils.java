@@ -9,6 +9,9 @@ public class JTableUtils {
 
     private static final int COLUMN_NOT_FOUND = -1;
 
+    private JTableUtils() {
+    }
+
     public static void setColumnWidth(JTable table, int... width) {
         TableColumnModel columnModel = table.getColumnModel();
         int length = width.length;

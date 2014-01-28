@@ -4,6 +4,9 @@ import javax.swing.JOptionPane;
 
 public class DialogUtils {
 
+    private DialogUtils() {
+    }
+
     public static boolean confirm(String message) {
         return confirm(message, "Confirmation");
     }
