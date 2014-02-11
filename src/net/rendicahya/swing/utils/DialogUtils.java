@@ -44,7 +44,7 @@ public class DialogUtils {
     }
 
     public static void error(String message) {
-        inform(message, "Error");
+        error(message, "Error");
     }
 
     public static void error(String message, String title) {

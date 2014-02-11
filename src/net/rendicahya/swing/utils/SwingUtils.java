@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -93,6 +94,12 @@ public class SwingUtils {
         }
 
         return false;
+    }
+
+    public static void addActionListener(ActionListener listener, JComboBox... components) {
+        for (JComboBox component : components) {
+            component.addActionListener(listener);
+        }
     }
 
     public static void addChangeListener(ChangeListener listener, JTextComponent... components) {
