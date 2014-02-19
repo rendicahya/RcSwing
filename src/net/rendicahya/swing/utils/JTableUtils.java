@@ -1,9 +1,13 @@
 package net.rendicahya.swing.utils;
 
+import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import net.rendicahya.commons.utils.RcStringUtils;
 
 public class JTableUtils {
 
@@ -44,6 +48,14 @@ public class JTableUtils {
         return COLUMN_NOT_FOUND;
     }
 
+    public static int parseIntValueAt(JTable table, int row, String columnTitle) {
+        return RcStringUtils.extractInt(getStringValueAt(table, row, columnTitle));
+    }
+
+    public static String getStringValueAt(JTable table, int row, String columnTitle) {
+        return String.valueOf(getValueAt(table, row, columnTitle));
+    }
+
     public static Object getValueAt(JTable table, int row, String columnTitle) {
         int column = getColumnIndex(table, columnTitle);
 
@@ -55,6 +67,18 @@ public class JTableUtils {
 
         if (column != COLUMN_NOT_FOUND) {
             table.setValueAt(value, row, column);
+        }
+    }
+
+    public static void setModelValueAt(JTable table, Object value, int row, int columnIndex) {
+        table.getModel().setValueAt(value, row, columnIndex);
+    }
+
+    public static void setModelValueAt(JTable table, Object value, int row, String columnTitle) {
+        int column = getColumnIndex(table, columnTitle);
+
+        if (column != COLUMN_NOT_FOUND) {
+            table.getModel().setValueAt(value, row, column);
         }
     }
 
@@ -73,6 +97,7 @@ public class JTableUtils {
 
         column.setMaxWidth(0);
         column.setMinWidth(0);
+        column.setResizable(false);
         column.setPreferredWidth(0);
     }
 }

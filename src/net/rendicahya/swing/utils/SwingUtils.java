@@ -4,6 +4,7 @@ import ij.ImagePlus;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -111,6 +112,12 @@ public class SwingUtils {
     public static void addActionListener(ActionListener listener, AbstractButton... buttons) {
         for (AbstractButton button : buttons) {
             button.addActionListener(listener);
+        }
+    }
+
+    public static void addKeyListener(KeyAdapter listener, Component... components) {
+        for (Component component : components) {
+            component.addKeyListener(listener);
         }
     }
 
