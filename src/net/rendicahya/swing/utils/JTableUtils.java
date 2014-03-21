@@ -8,12 +8,37 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import net.rendicahya.commons.utils.RcStringUtils;
+import org.jsoup.Jsoup;
 
 public class JTableUtils {
 
     private static final int COLUMN_NOT_FOUND = -1;
 
     private JTableUtils() {
+    }
+
+    public static int getRowIndex(JTable table, int column, String value) {
+        int rowCount = table.getModel().getRowCount();
+
+        for (int row = 0; row < rowCount; row++) {
+            if (table.getModel().getValueAt(row, column).equals(value)) {
+                return row;
+            }
+        }
+
+        return -1;
+    }
+
+    public static int getRowIndexStripHtmlTags(JTable table, int column, String value) {
+        int rowCount = table.getModel().getRowCount();
+
+        for (int row = 0; row < rowCount; row++) {
+            if (Jsoup.parse(String.valueOf(table.getModel().getValueAt(row, column))).text().equals(value)) {
+                return row;
+            }
+        }
+
+        return -1;
     }
 
     public static void setColumnWidth(JTable table, int... width) {
@@ -41,6 +66,18 @@ public class JTableUtils {
 
         for (int column = 0; column < columnCount; column++) {
             if (table.getColumnName(column).equalsIgnoreCase(columnTitle)) {
+                return column;
+            }
+        }
+
+        return COLUMN_NOT_FOUND;
+    }
+
+    public static int getColumnIndexStripHtmlTags(JTable table, String columnTitle) {
+        int columnCount = table.getColumnCount();
+
+        for (int column = 0; column < columnCount; column++) {
+            if (Jsoup.parse(table.getColumnName(column)).text().equalsIgnoreCase(columnTitle)) {
                 return column;
             }
         }
@@ -139,7 +176,7 @@ public class JTableUtils {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object color,
                 boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(Integer.toString(row + 1));
+            setText(String.valueOf(row + 1));
 
             return this;
         }
