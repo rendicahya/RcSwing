@@ -1,9 +1,9 @@
-package net.rendicahya.swing.components;
+package net.rendicahya.swing;
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
-public class JFileChooser extends javax.swing.JFileChooser {
+public class FileFilterFactory {
 
     /*
      * PLAIN
@@ -37,65 +37,57 @@ public class JFileChooser extends javax.swing.JFileChooser {
     public static final int PNG_FILES = 35;
     public static final int TIFF_FILES = 36;
 
-    public JFileChooser() {
-        initComponents();
+    /*
+     * BINARY FILES
+     */
+    public static final int JAR_FILES = 41;
+
+    private FileFilterFactory() {
     }
 
-    public void setFileFilter(int fileTypes) {
+    public static FileFilter createFileFilter(int fileTypes) {
         switch (fileTypes) {
             case TEXT_FILES:
-                setFileFilter("Text Files", "txt");
-                break;
+                return createFileFilter("Text Files", "txt");
             case JSON_FILES:
-                setFileFilter("JSON Files", "json");
-                break;
+                return createFileFilter("JSON Files", "json");
             case MS_OFFICE_FILES:
-                setFileFilter("Microsoft Office Files", "doc", "docx", "xls", "xlsx", "ppt", "pptx");
-                break;
+                return createFileFilter("Microsoft Office Files", "doc", "docx", "xls", "xlsx", "ppt", "pptx");
             case MS_WORD_FILES:
-                setFileFilter("Microsoft Word Files", "doc", "docx");
-                break;
+                return createFileFilter("Microsoft Word Files", "doc", "docx");
             case MS_EXCEL_FILES:
-                setFileFilter("Microsoft Excel Files", "xls", "xlsx");
-                break;
+                return createFileFilter("Microsoft Excel Files", "xls", "xlsx");
             case MS_POWERPOINT_FILES:
-                setFileFilter("Microsoft PowerPoint Files", "ppt", "pptx");
-                break;
+                return createFileFilter("Microsoft PowerPoint Files", "ppt", "pptx");
             case MS_ACCESS_FILES:
-                setFileFilter("Microsoft Access Files", "mdb", "mdbx");
-                break;
+                return createFileFilter("Microsoft Access Files", "mdb", "mdbx");
             case PDF_FILES:
-                setFileFilter("Portable Document Files", "pdf");
-                break;
+                return createFileFilter("Portable Document Files", "pdf");
             case JAVA_FILES:
-                setFileFilter("Java Files", "java");
-                break;
+                return createFileFilter("Java Files", "java");
             case PHP_FILES:
-                setFileFilter("PHP Files", "php");
-                break;
+                return createFileFilter("PHP Files", "php");
             case IMAGE_FILES:
-                setFileFilter("Image Files", "jpg", "jpe", "jpeg", "jfif", "gif", "bmp", "png", "tif", "tiff");
-                break;
+                return createFileFilter("Image Files", "jpg", "jpe", "jpeg", "jfif", "gif", "bmp", "png", "tif", "tiff");
             case JPEG_FILES:
-                setFileFilter("JPEG Images", "jpg", "jpe", "jpeg", "jfif");
-                break;
+                return createFileFilter("JPEG Images", "jpg", "jpe", "jpeg", "jfif");
             case GIF_FILES:
-                setFileFilter("GIF Images", "gif");
-                break;
+                return createFileFilter("GIF Images", "gif");
             case BMP_FILES:
-                setFileFilter("BMP Images", "bmp");
-                break;
+                return createFileFilter("BMP Images", "bmp");
             case PNG_FILES:
-                setFileFilter("PNG Images", "png");
-                break;
+                return createFileFilter("PNG Images", "png");
             case TIFF_FILES:
-                setFileFilter("TIFF Images", "tif", "tiff");
-                break;
+                return createFileFilter("TIFF Images", "tif", "tiff");
+            case JAR_FILES:
+                return createFileFilter("Java JAR Files", "jar");
+            default:
+                return null;
         }
     }
 
-    public void setFileFilter(final String description, final String... extension) {
-        setFileFilter(new FileFilter() {
+    public static FileFilter createFileFilter(final String description, final String... extensions) {
+        return new FileFilter() {
             @Override
             public boolean accept(File file) {
                 if (file.isDirectory()) {
@@ -104,7 +96,7 @@ public class JFileChooser extends javax.swing.JFileChooser {
 
                 String name = file.getName().toLowerCase();
 
-                for (String ext : extension) {
+                for (String ext : extensions) {
                     if (name.endsWith(ext)) {
                         return true;
                     }
@@ -116,7 +108,7 @@ public class JFileChooser extends javax.swing.JFileChooser {
             @Override
             public String getDescription() {
                 StringBuilder filesOfType = new StringBuilder();
-                int paramsLength = extension.length;
+                int paramsLength = extensions.length;
                 int i = 0;
 
                 if (description != null) {
@@ -127,11 +119,11 @@ public class JFileChooser extends javax.swing.JFileChooser {
                 while (i < paramsLength) {
                     filesOfType.append('*');
 
-                    if (!extension[i].startsWith(".")) {
+                    if (!extensions[i].startsWith(".")) {
                         filesOfType.append('.');
                     }
 
-                    filesOfType.append(extension[i]);
+                    filesOfType.append(extensions[i]);
 
                     if (++i < paramsLength) {
                         filesOfType.append(", ");
@@ -144,25 +136,6 @@ public class JFileChooser extends javax.swing.JFileChooser {
 
                 return filesOfType.toString();
             }
-        });
+        };
     }
-
-    public void open(Runnable action) {
-        if (super.showOpenDialog(null) == APPROVE_OPTION) {
-            action.run();
-        }
-    }
-
-    public void save(Runnable action) {
-        if (super.showSaveDialog(null) == APPROVE_OPTION) {
-            action.run();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-    }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }
