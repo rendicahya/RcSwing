@@ -14,13 +14,10 @@ public class RcImageZoomPanel extends JPanel {
     public RcImageZoomPanel() {
         initComponents();
 
-        addZoomListener(new Runnable() {
-            @Override
-            public void run() {
-                if (pnlImage.getImage() != null) {
-                    double scale = (double) sldZoom.getValue() / 10;
-                    pnlImage.setScale(scale);
-                }
+        addZoomListener(() -> {
+            if (pnlImage.getImage() != null) {
+                double scale = (double) sldZoom.getValue() / 10;
+                pnlImage.setScale(scale);
             }
         });
     }
@@ -44,29 +41,20 @@ public class RcImageZoomPanel extends JPanel {
 
     public final void addZoomListener(final Runnable zoomListener) {
         if (zoomListener != null) {
-            sldZoom.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent evt) {
-                    zoomListener.run();
-                }
+            sldZoom.addChangeListener((ChangeEvent evt) -> {
+                zoomListener.run();
             });
         }
     }
 
     public void syncZoomWith(final RcImageZoomPanel mate) {
         if (mate != null) {
-            addZoomListener(new Runnable() {
-                @Override
-                public void run() {
-                    mate.setZoomScale(getZoomScale());
-                }
+            addZoomListener(() -> {
+                mate.setZoomScale(getZoomScale());
             });
 
-            mate.addZoomListener(new Runnable() {
-                @Override
-                public void run() {
-                    setZoomScale(mate.getZoomScale());
-                }
+            mate.addZoomListener(() -> {
+                setZoomScale(mate.getZoomScale());
             });
         }
     }
@@ -110,18 +98,12 @@ public class RcImageZoomPanel extends JPanel {
 
     public void syncVerticalScrollWith(final RcImageZoomPanel mate) {
         if (mate != null) {
-            addVerticalScrollListener(new Runnable() {
-                @Override
-                public void run() {
-                    mate.setVerticalScrollPosition(getVerticalScrollPosition());
-                }
+            addVerticalScrollListener(() -> {
+                mate.setVerticalScrollPosition(getVerticalScrollPosition());
             });
 
-            mate.addVerticalScrollListener(new Runnable() {
-                @Override
-                public void run() {
-                    setVerticalScrollPosition(mate.getVerticalScrollPosition());
-                }
+            mate.addVerticalScrollListener(() -> {
+                setVerticalScrollPosition(mate.getVerticalScrollPosition());
             });
         }
     }
@@ -141,18 +123,12 @@ public class RcImageZoomPanel extends JPanel {
 
     public void syncHorizontalScrollWith(final RcImageZoomPanel mate) {
         if (mate != null) {
-            addHorizontalScrollListener(new Runnable() {
-                @Override
-                public void run() {
-                    mate.setHorizontalScrollPosition(getHorizontalScrollPosition());
-                }
+            addHorizontalScrollListener(() -> {
+                mate.setHorizontalScrollPosition(getHorizontalScrollPosition());
             });
 
-            mate.addHorizontalScrollListener(new Runnable() {
-                @Override
-                public void run() {
-                    setHorizontalScrollPosition(mate.getHorizontalScrollPosition());
-                }
+            mate.addHorizontalScrollListener(() -> {
+                setHorizontalScrollPosition(mate.getHorizontalScrollPosition());
             });
         }
     }
