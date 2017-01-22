@@ -10,11 +10,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 public class JFileChooserUtils {
 
     private static final String LAST_DIRECTORY_ITEM = "last_directory";
-    private static final Map<JFileChooser, PropertiesConfiguration> configurationMap;
-
-    static {
-        configurationMap = new HashMap<>();
-    }
+    private static final Map<JFileChooser, PropertiesConfiguration> CONFIGURATION_MAP = new HashMap<>();
 
     private JFileChooserUtils() {
     }
@@ -22,12 +18,20 @@ public class JFileChooserUtils {
     public static void rememberLastDirectory(JFileChooser jFileChooser, String configurationFile) throws ConfigurationException {
         PropertiesConfiguration configuration = new PropertiesConfiguration(configurationFile);
 
-        configurationMap.put(jFileChooser, configuration);
+        CONFIGURATION_MAP.put(jFileChooser, configuration);
     }
 
-    public static void open(JFileChooser jFileChooser, Runnable action) throws ConfigurationException {
-        if (configurationMap.containsKey(jFileChooser)) {
-            PropertiesConfiguration configuration = configurationMap.get(jFileChooser);
+    public static void open(JFileChooser jFileChooser, Runnable callback) {
+        if (jFileChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        callback.run();
+    }
+
+    public static void open(JFileChooser jFileChooser, boolean useConfiguration, Runnable callback) throws ConfigurationException {
+        if (useConfiguration && CONFIGURATION_MAP.containsKey(jFileChooser)) {
+            PropertiesConfiguration configuration = CONFIGURATION_MAP.get(jFileChooser);
             String lastDirectory = configuration.getString(LAST_DIRECTORY_ITEM);
             File lastDirectoryFile = new File(lastDirectory);
 
@@ -40,15 +44,15 @@ public class JFileChooserUtils {
             return;
         }
 
-        if (configurationMap.containsKey(jFileChooser)) {
-            PropertiesConfiguration configuration = configurationMap.get(jFileChooser);
+        if (useConfiguration && CONFIGURATION_MAP.containsKey(jFileChooser)) {
+            PropertiesConfiguration configuration = CONFIGURATION_MAP.get(jFileChooser);
             String lastDirectory = jFileChooser.getSelectedFile().getParent();
 
             configuration.setProperty(LAST_DIRECTORY_ITEM, lastDirectory);
             configuration.save();
         }
 
-        action.run();
+        callback.run();
     }
 
     public static void save(JFileChooser fileChooser, Runnable action) {
